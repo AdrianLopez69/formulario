@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--declaramos una etiqueta html para configurar
+    los valores de la pantalla y escala -->
+    <meta name="viewport" content="width=device-width">
+    <title>Formulario</title>
+    <!--añadimos el link de boostrap -->
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'>
+    <style>
+        body {
+            background-color: purple;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<!--creamos un div para centrar y poner un margen en el formulario -->
+<div class="container mt-5">
+    <h2 class="text-center" style="color: aliceblue">Formulario de Estudidantes</h2>
+    <div class="card">
+    <!--creamos un metodo form para recopilar la informacion y mandar al servidor -->
+    <form id="formulario" method="post" action="servletParametros" class="needs-validation" novalidate>
+    <!-- creamos un div con la funcion form-row
+    lo utilizamos para grupar los campos
+    asi dividiendo mejor su espacio -->
+    <div class="form-row" >
+        <div class="col-md-6 mb-3">
+            <label for="nom">Nombre</label>
+            <input type="text" class="form-control" id="nom" name="nombre" >
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="ape">Apellido</label>
+            <input type="text" class="form-control" id="ape" name="apellido" >
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="cur">Curso</label>
+            <input type="text" class="form-control" id="cur" name="curso">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="ed">Edad</label>
+            <input type="text" class="form-control" id="ed" name="edad">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12 mb-3">
+            <!--creamos un div check para generar el boton donde le ponemos de tipo radio -->
+            <label>Genero</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="masc" name="genero" value="Masculino" >
+                <label class="form-check-label" for="masc">Masculino</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="fem" name="genero" value="Femenino" >
+                <label class="form-check-label" for="fem">Femenino</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="otro" name="genero" value="No especificado" >
+                <label class="form-check-label" type="radio" for="otro">Prefiero no especificarlo</label>
+            </div>
+        </div>
+
+    </div>
+    <!--creamos un div check para generar la lista de los progromas conociods-->
+    <div class="form-row">
+        <div class="col-md-12 mb-3">
+            <label for="prog">Programa Conocido</label>
+            <select class="form-control" id="prog" name="programas" >
+                <option value="">Seleccione...</option>
+                <option value="Java">Java</option>
+                <option value="Python">Python</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="C++">C++</option>
+            </select>
+        </div>
+    </div>
+    <!--creamos un div con un text area ára que se pueda ingresar la descripcion-->
+    <div class="form-row">
+        <div class="col-md-12 mb-3">
+            <label for="desc">Ingrese una breve descripcion</label>
+            <textarea class="form-control" id="desc" name="descripcion" rows="4" ></textarea>
+        </div>
+    </div>
+
+        <button id="enviarFormulario" class="btn btn-primary">Enviar</button>
+        <button class="btn btn-secondary" type="reset">Eliminar</button>
+        <button class="btn btn-primary"><a href="servletParametros" style="color:white">Ir al Servlet</a></button>
+
+    </form>
+        </div>
+</div>
+
+<!-- Incluimos la biblioiteca bootstrap js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("miFormulario");
+        var enviarBtn = document.getElementById("enviarFormulario");
+
+        enviarBtn.addEventListener("click", function(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe directamente
+
+            if (form.checkValidity()) {
+                var formData = new FormData(form);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "miServlet", true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // Manejar la respuesta del servidor si es necesario
+                        console.log(xhr.responseText);
+                    }
+                };
+                xhr.send(formData);
+            } else {
+                form.classList.add("was-validated"); // Mostrar mensajes de validación
+            }
+        });
+    });
+</script>
+</body>
+</html>
